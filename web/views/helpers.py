@@ -1,5 +1,6 @@
 import urllib.parse
 from bson import ObjectId
+from bson.errors import InvalidId
 from flask import make_response, abort, request
 from flask_login import current_user
 from werkzeug.exceptions import Forbidden
@@ -140,7 +141,10 @@ def file_download(filepath):
 
 def get_or_404(objectmanager, *args, **kwargs):
     if '_id' in kwargs:
-        kwargs['_id'] = ObjectId(kwargs['_id'])
+        try:
+            kwargs['_id'] = ObjectId(kwargs['_id'])
+        except InvalidId:
+            abort(404)
 
     result = objectmanager.find_one(kwargs)
     if result:
