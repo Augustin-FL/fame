@@ -2,6 +2,7 @@ import os
 import requests
 import datetime
 import traceback
+import time
 from shutil import copy
 from hashlib import md5
 from urllib.parse import urljoin
@@ -17,6 +18,12 @@ from fame.core.module_dispatcher import dispatcher, DispatchingException
 from fame.core.config import Config
 from fame.core.module import ModuleInfo
 
+if os.name == "nt":
+    # Windows
+    import msvcrt
+else:
+    # Linux/Unix
+    import fcntl
 
 # Celery task to retrieve analysis object and run specific module on it
 @celery.task
@@ -399,18 +406,50 @@ class Analysis(MongoDict):
                     self.log("error", "File '{0}' not found on disk, unable to analyze it.".format(pathhash))
                     return False
                 else:
-                    try:
-                        f = open(local_path, 'xb')
-                        for chunk in response.iter_content(1024):
-                            f.write(chunk)
+                    with open(local_path, "ab+") as f:
+                        self.acquire_lock(f)
+                        f.seek(0, os.SEEK_END)
+                        if f.tell() == 0:
+                            f.seek(0, 0)
+                            for chunk in response.iter_content(1024):
+                                f.write(chunk)
+                            f.flush()
+                        self.release_lock(f)
                         f.close()
-                    except FileExistsError:
-                        pass
-
 
             return local_path
         else:
             return path
+
+    def acquire_lock(self, f):
+        """Cross-platform file lock (blocking)."""
+        if os.name == "nt":
+            while True:
+                try:
+                    msvcrt.locking(f.fileno(), msvcrt.LK_NBLCK, 1)
+                    return
+                except OSError:
+                    time.sleep(0.2)
+        else:
+            while True:
+                try:
+                    fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    return
+                except BlockingIOError:
+                    time.sleep(0.2)
+
+    def release_lock(self, f):
+        """Release cross-platform file lock."""
+        if os.name == "nt":
+            try:
+                msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+            except OSError:
+                pass
+        else:
+            try:
+                fcntl.flock(f, fcntl.LOCK_UN)
+            except OSError:
+                pass
 
     def get_main_file(self):
         filepath = self._file['filepath']
