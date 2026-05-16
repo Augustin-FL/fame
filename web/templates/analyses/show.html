@@ -15,15 +15,27 @@
 Analysis
 {% endblock %}
 
+{% block sidebar_top %}
+    {% if current_user.has_permission('review') and analysis.file is defined %}
+    {% set not_reviewed = 'True' if(analysis.file.reviewed is not defined or analysis.file.reviewed is none or analysis.file.reviewed == False) else '' %}
+    <div class="d-none d-lg-block text-center sidebar-review-btn">
+        <form method="POST" action="{{url_for('FilesView:review', id=analysis.file._id)}}">
+            <input type="hidden" name="reviewed" value="{{ not_reviewed }}" />
+            <input type="submit" class="btn btn-fill {{ 'btn-success' if not_reviewed == 'True' else 'btn-danger' }}" value="{{'Review' if not_reviewed == 'True' else 'Unreview'}}">
+        </form>
+    </div>
+    {% endif %}
+{% endblock %}
+
 {% block sidebar %}
 <li>
-    <a href="#file-details">
+    <a class="nav-link text-white" href="#file-details">
         <i class="pe-7s-note2"></i>
         <p>File Details</p>
     </a>
 </li>
 <li>
-    <a href="#execution-path">
+    <a class="nav-link text-white" href="#execution-path">
         <i class="pe-7s-way"></i>
         <p>Execution Path</p>
     </a>
@@ -31,7 +43,7 @@ Analysis
 
 {% if analysis.extracted_files|length %}
 <li>
-    <a href="#extracted_files">
+    <a class="nav-link text-white" href="#extracted_files">
         <i class="fa fa-code-fork"></i>
         <p>Extracted Files</p>
     </a>
@@ -40,7 +52,7 @@ Analysis
 
 {% if analysis.iocs|length %}
 <li>
-    <a href="#iocs">
+    <a class="nav-link text-white" href="#iocs">
         <i class="pe-7s-diamond"></i>
         <p>Observables</p>
     </a>
@@ -48,14 +60,14 @@ Analysis
 {% endif %}
 {% if analysis.extractions|length %}
 <li>
-    <a href="#extractions">
+    <a class="nav-link text-white" href="#extractions">
         <i class="pe-7s-like2"></i>
-        <p>Extractions <b class="caret caret-right"></b></p>
+        <p>Extractions <b class="fa fa-angle-right"></b></p>
     </a>
     <ul class="nav">
         {% for extraction in analysis.extractions %}
             <li>
-                <a class="sidebar-subnav" href="#extraction-{{extraction.label|replace(' ', '-')}}">{{extraction.label}}</a>
+                <a class="sidebar-subnav nav-link text-white" href="#extraction-{{extraction.label|replace(' ', '-')}}">{{extraction.label}}</a>
             </li>
         {% endfor %}
     </ul>
@@ -63,14 +75,14 @@ Analysis
 {% endif %}
 {% if analysis.results|length %}
 <li>
-    <a href="#details">
+    <a class="nav-link text-white" href="#details">
         <i class="pe-7s-notebook"></i>
-        <p>Detailed Results <b class="caret caret-right"></b></p>
+        <p>Detailed Results <b class="fa fa-angle-right"></b></p>
     </a>
     <ul class="nav">
         {% for name in analysis.results %}
             <li>
-                <a class="sidebar-subnav" href="#results-{{name|replace(' ', '-')}}">{{name}}</a>
+                <a class="sidebar-subnav nav-link text-white" href="#results-{{name|replace(' ', '-')}}">{{name}}</a>
             </li>
         {% endfor %}
     </ul>
@@ -78,7 +90,7 @@ Analysis
 {% endif %}
 {% if analysis.logs|length and current_user.has_permission('see_logs') %}
 <li>
-    <a href="#logs">
+    <a class="nav-link text-white" href="#logs">
         <i class="pe-7s-info"></i>
         <p>Logs</p>
     </a>
@@ -239,12 +251,9 @@ Analysis
                                                 {% endif %}
                                             {% endfor %}
                                             {% for indicator in ioc.ti_indicators %}
-                                                <span class="tag tag-waiting" data-toggle="tooltip" data-placement="top" title="{{indicator.description}}">{{indicator.name}}</span>
+                                                <span class="tag tag-waiting" data-bs-toggle="tooltip" data-bs-placement="top" title="{{indicator.description}}">{{indicator.name}}</span>
                                             {% endfor %}
 
-                                            <script>
-                                                $('[data-toggle="tooltip"]').tooltip();
-                                            </script>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -258,10 +267,10 @@ Analysis
                                 {% if current_user.has_permission('submit_iocs') %}
                                     {% for module in ti_modules %}
                                         {% if module.has_submit_implementation() %}
-                                            <li id="ioc-sent-{{module.name}}" {% if not analysis.threat_intelligence[module.name] %}class="hidden"{% endif %}>
+                                            <li id="ioc-sent-{{module.name}}" {% if not analysis.threat_intelligence[module.name] %}class="d-none"{% endif %}>
                                                 <i class="fa fa-check text-success"></i> Sent to {{module.name}}
                                             </li>
-                                            <li id="ioc-sendto-{{module.name}}" {% if analysis.threat_intelligence[module.name] %}class="hidden"{% endif %}>
+                                            <li id="ioc-sendto-{{module.name}}" {% if analysis.threat_intelligence[module.name] %}class="d-none"{% endif %}>
                                                 <a class="ioc-submission-link" href="{{ url_for('AnalysesView:submit_iocs', id=analysis._id, module=module.name) }}"><i class="fa fa-send"></i> Send to {{module.name}}</a>
                                             </li>
                                         {% endif %}
@@ -319,7 +328,7 @@ Analysis
                             <input id="ioc-submission-tags" class="tags-input tag-azure" type="text" value="" />
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-info btn-fill"><i class="feedback hidden fa fa-refresh spinner"></i> Send</button>
+                            <button type="submit" class="btn btn-info btn-fill"><i class="feedback d-none fa fa-refresh spinner"></i> Send</button>
                             <button id="ioc-submission-cancel" class="btn-link">Cancel</button>
                         </div>
                     </form>
@@ -377,12 +386,38 @@ Analysis
 
 
 <script type="text/javascript">
-    $('.main-panel').scrollspy({ target: '#sidebar-nav' });
+    new bootstrap.ScrollSpy(document.querySelector('.main-panel'), { target: '#sidebar-nav' });
 
     hljs.initHighlighting.called = false;
     hljs.initHighlighting();
 
     $('.tags-input').tagsInput();
+
+    document.addEventListener('click', function(e) {
+      var trigger = e.target.closest('[data-modal-trigger]');
+      if (trigger) {
+        e.preventDefault();
+        var row = trigger.closest('.row[id^="results-"]');
+        if (row) {
+          var modal = row.querySelector('.modal');
+          if (modal) {
+            modal.querySelector('.modal-content-image').src = trigger.src;
+            modal.style.display = 'block';
+          }
+        }
+        return;
+      }
+
+      var btn = e.target.closest('.modal .btn-close');
+      if (btn) {
+        btn.closest('.modal').style.display = 'none';
+        return;
+      }
+
+      if (e.target.classList.contains('modal')) {
+        e.target.style.display = 'none';
+      }
+    });
 </script>
 
 {% if analysis.status in ('pending', 'running', 'preloading') %}

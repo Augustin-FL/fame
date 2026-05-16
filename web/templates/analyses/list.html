@@ -5,16 +5,15 @@
                 <h4 class="title">Analyses</h4>
                 <p class="category">Most recent first</p>
                 {% if current_user.has_permission('review') %}
-                    <div class="dropdown pull-right">
-                      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <div class="dropdown float-end">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         {% if filter == 'reviewed' %} Reviewed {% elif filter == 'to_review' %} To review {% else %} Filter {% endif %}
-                        <span class="caret"></span>
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="{{ url_for('AnalysesView:index') }}">All</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="{{ url_for('AnalysesView:index', filter='reviewed') }}">Reviewed</a></li>
-                        <li><a href="{{ url_for('AnalysesView:index', filter='to_review')}}">To review</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('AnalysesView:index') }}">All</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('AnalysesView:index', filter='reviewed') }}">Reviewed</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('AnalysesView:index', filter='to_review')}}">To review</a></li>
                       </ul>
                     </div>
                 {% endif %}
@@ -40,7 +39,7 @@
                             {% for analysis in data['analyses'] %}
                                 <tr class="{{ 'reviewed' if current_user.has_permission('review') and analysis.reviewed is defined and analysis.reviewed is not none }}">
                                     <td class="list-avatar avatar">
-                                        <img class="img-circle" src="{{analysis.analyst|avatar}}" data-toggle="tooltip" data-placement="top" title="{{analysis.analyst|name}}" />
+                                        <img class="rounded-circle" src="{{analysis.analyst|avatar}}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{analysis.analyst|name}}" />
                                     </td>
                                     <td><a href="{{ url_for('AnalysesView:get', id=analysis._id) }}">{{analysis.date|date}}</a></td>
                                     <td>{{analysis.status}}</td>
@@ -54,7 +53,7 @@
                                     {% if current_user.has_permission('review') %}
                                         <td class="list-avatar avatar">
                                             {% if analysis.reviewed %}
-                                                <img class="img-circle" src="{{analysis.reviewed|avatar}}" data-toggle="tooltip" data-placement="top" title="{{analysis.reviewed|name}}" />
+                                                <img class="rounded-circle" src="{{analysis.reviewed|avatar}}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{analysis.reviewed|name}}" />
                                             {% endif %}
                                         </td>
                                     {% endif %}
@@ -68,6 +67,4 @@
     </div>
 </div>
 
-<script>
-    $('[data-toggle="tooltip"]').tooltip();
-</script>
+

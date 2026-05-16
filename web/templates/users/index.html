@@ -5,14 +5,16 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="header">
-                    <div class="col-sm-8">
-                        <h4 class="title">Users</h4>
-                        <p class="category"></p>
-                    </div>
-                    <div class="col-sm-4 text-right module-actions">
-                        <a href="{{ url_for('UsersView:new')}}" class="btn btn-sm btn-fill btn-info">
-                            Create New User
-                        </a>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h4 class="title">Users</h4>
+                            <p class="category"></p>
+                        </div>
+                        <div class="col-sm-4 text-end module-actions">
+                            <a href="{{ url_for('UsersView:new')}}" class="btn btn-sm btn-fill btn-info">
+                                Create New User
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="content">
@@ -32,7 +34,7 @@
                                 {% for user in data['users'] %}
                                     <tr {% if not user.enabled %}class="user-disabled"{% endif %}>
                                             <td class="list-avatar avatar">
-                                                <img class="img-circle" src="{{user|avatar}}" />
+                                                <img class="rounded-circle" src="{{user|avatar}}" />
                                             </td>
                                             <td><a href="{{ url_for('UsersView:get', id=user._id)}}">
                                                 {{user.name}}
@@ -51,11 +53,11 @@
                                         <td class="user-actions">
                                             {% if user.enabled %}
                                                 <form method="post" action="{{ url_for('UsersView:disable', id=user._id) }}">
-                                                    <button type="submit" class="btn btn-danger btn-xs btn-fill"><i class="fa fa-remove"></i> Disable</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm btn-fill"><i class="fa fa-remove"></i> Disable</button>
                                                 </form>
                                             {% else %}
                                                 <form method="post" action="{{ url_for('UsersView:enable', id=user._id) }}">
-                                                    <button type="submit" class="btn btn-success btn-xs btn-fill"><i class="fa fa-check"></i> Enable</button>
+                                                    <button type="submit" class="btn btn-success btn-sm btn-fill"><i class="fa fa-check"></i> Enable</button>
                                                 </form>
                                             {% endif %}
                                         </td>

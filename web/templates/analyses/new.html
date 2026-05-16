@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="row">
-	<div class="col-md-8 col-md-offset-2">
+	<div class="col-md-8 offset-md-2">
         <div class="card">
             <div class="header text-center">
                 <h3>Submit a new file</h3>
@@ -12,9 +12,9 @@
                 <form id="submit" enctype="multipart/form-data" action="{{ url_for('AnalysesView:post') }}" method="POST">
                     <div class="tab-pills">
                         <ul class="nav nav-pills">
-                            <li class="active"><a href="#file" role="tab" data-toggle="tab">File</a></li>
-                            <li><a href="#url" role="tab" data-toggle="tab">URL</a></li>
-                            <li><a href="#hash" role="tab" data-toggle="tab">Hash</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#file" role="tab" data-bs-toggle="tab">File</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#url" role="tab" data-bs-toggle="tab">URL</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#hash" role="tab" data-bs-toggle="tab">Hash</a></li>
                         </ul>
                     </div>
 
@@ -46,10 +46,10 @@
                         <label class="checkbox checkbox-inline">
                             <input type="checkbox" name="options[magic_enabled]" checked data-toggle="checkbox">Enable Magic
                         </label>
-                        <a class="help" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="Enable Magic"
-                            data-html="true" data-content="When disabled, modules that were not specified will not be executed."
-                            data-placement="top">
-                            <i class="glyphicon glyphicon-question-sign"></i>
+                        <a class="help" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="Enable Magic"
+                            data-bs-html="true" data-bs-content="When disabled, modules that were not specified will not be executed."
+                            data-bs-placement="top">
+                            <i class="fa fa-question-circle"></i>
                         </a>
                     </div>
 

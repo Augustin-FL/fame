@@ -15,8 +15,8 @@
                                 <div class="col-sm-8">
                                     <h5>{{config.name}}</h5>
                                 </div>
-                                <div class="col-sm-4 text-right module-actions">
-                                    <a class="btn btn-xs btn-fill" href="{{ url_for('ModulesView:configuration', id=config._id)}}"><i class="fa fa-sliders"></i> Configure</a>
+                                <div class="col-sm-4 text-end module-actions">
+                                    <a class="btn btn-sm btn-fill" href="{{ url_for('ModulesView:configuration', id=config._id)}}"><i class="fa fa-sliders"></i> Configure</a>
                                 </div>
                             </div>
                             {% if config.description %}
@@ -40,9 +40,9 @@
                             <h4 class="title">Module Repositories</h4>
                             <p class="category">Where the goodness comes from</p>
                         </div>
-                        <div class="col-sm-4 text-right module-actions">
+                        <div class="col-sm-4 text-end module-actions">
                             <form method="post" action="{{ url_for('ModulesView:reload')}}">
-                                <button type="submit" class="btn btn-xs btn-fill"><i class="fa fa-refresh"></i> Reload</button>
+                                <button type="submit" class="btn btn-sm btn-fill"><i class="fa fa-refresh"></i> Reload</button>
                             </form>
                         </div>
                     </div>
@@ -55,23 +55,23 @@
                                     <div class="col-sm-8">
                                         <h5>{{repository.name}}</h5>
                                     </div>
-                                    <div class="col-sm-4 text-right module-actions">
+                                    <div class="col-sm-4 text-end module-actions">
                                         <form method="post" action="{{ url_for('ModulesView:repository_update', id=repository._id) }}">
-                                            <button type="submit" class="btn btn-info btn-xs btn-fill"><i class="fa fa-download"></i> Update</button>
+                                            <button type="submit" class="btn btn-info btn-sm btn-fill"><i class="fa fa-download"></i> Update</button>
                                         </form>
                                         <form method="post" action="{{ url_for('ModulesView:repository_delete', id=repository._id) }}" data-confirm="This will delete all files / modules from this repository. Are you sure ?">
-                                            <button type="submit" class="btn btn-danger btn-xs btn-fill"><i class="fa fa-trash"></i> Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm btn-fill"><i class="fa fa-trash"></i> Delete</button>
                                         </form>
                                     </div>
                                 </div>
                                 <div>{{repository.address}}</div>
                                 <ul>
                                 {% if repository.status == 'error' %}
-                                <div class="panel panel-danger">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Error</h3>
+                                <div class="card border-danger">
+                                    <div class="card-header bg-danger bg-gradient text-white">
+                                        <h3 class="card-title mt-0 mb-0">Error</h3>
                                     </div>
-                                    <div class="panel-body">
+                                    <div class="card-body">
                                         <pre>{{repository.error_msg}}</pre>
                                     </div>
                                 </div>
@@ -114,16 +114,16 @@
                                 <div class="col-sm-8">
                                     <h5>{{module.name}}</h5>
                                 </div>
-                                <div class="col-sm-4 text-right module-actions">
-                                    <a class="btn btn-xs btn-fill" href="{{ url_for('ModulesView:configure', id=module._id)}}"><i class="fa fa-sliders"></i> Configure</a>
+                                <div class="col-sm-4 text-end module-actions">
+                                    <a class="btn btn-sm btn-fill" href="{{ url_for('ModulesView:configure', id=module._id)}}"><i class="fa fa-sliders"></i> Configure</a>
                                     {% if module.enabled %}
                                         <form method="post" action="{{ url_for('ModulesView:disable', id=module._id) }}">
-                                            <button type="submit" class="btn btn-danger btn-xs btn-fill"><i class="fa fa-remove"></i> Disable</button>
+                                            <button type="submit" class="btn btn-danger btn-sm btn-fill"><i class="fa fa-remove"></i> Disable</button>
                                         </form>
                                     {% else %}
                                         {% if not module.error %}
                                             <form method="post" action="{{ url_for('ModulesView:enable', id=module._id) }}">
-                                                <button type="submit" class="btn btn-success btn-xs btn-fill"><i class="fa fa-check"></i> Enable</button>
+                                                <button type="submit" class="btn btn-success btn-sm btn-fill"><i class="fa fa-check"></i> Enable</button>
                                             </form>
                                         {% endif %}
                                     {% endif %}
@@ -134,11 +134,11 @@
                             {% endif %}
 
                             {% if module.error %}
-                            <div class="panel panel-danger">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Error</h3>
+                            <div class="card border-danger">
+                                <div class="card-header bg-danger bg-gradient text-white">
+                                    <h3 class="card-title mt-0 mb-0">Error</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <pre>{{module.error}}</pre>
                                 </div>
                             </div>
@@ -185,16 +185,16 @@
                                 <div class="col-sm-8">
                                     <h5>{{module.name}}</h5>
                                 </div>
-                                <div class="col-sm-4 text-right module-actions">
-                                    <a class="btn btn-xs btn-fill" href="{{ url_for('ModulesView:configure', id=module._id)}}"><i class="fa fa-sliders"></i> Configure</a>
+                                <div class="col-sm-4 text-end module-actions">
+                                    <a class="btn btn-sm btn-fill" href="{{ url_for('ModulesView:configure', id=module._id)}}"><i class="fa fa-sliders"></i> Configure</a>
                                     {% if module.enabled %}
                                         <form method="post" action="{{ url_for('ModulesView:disable', id=module._id) }}">
-                                            <button type="submit" class="btn btn-danger btn-xs btn-fill"><i class="fa fa-remove"></i> Disable</button>
+                                            <button type="submit" class="btn btn-danger btn-sm btn-fill"><i class="fa fa-remove"></i> Disable</button>
                                         </form>
                                     {% else %}
                                         {% if not module.error %}
                                             <form method="post" action="{{ url_for('ModulesView:enable', id=module._id) }}">
-                                                <button type="submit" class="btn btn-success btn-xs btn-fill"><i class="fa fa-check"></i> Enable</button>
+                                                <button type="submit" class="btn btn-success btn-sm btn-fill"><i class="fa fa-check"></i> Enable</button>
                                             </form>
                                         {% endif %}
                                     {% endif %}
@@ -205,11 +205,11 @@
                             {% endif %}
 
                             {% if module.error %}
-                            <div class="panel panel-danger">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Error</h3>
+                            <div class="card border-danger">
+                                <div class="card-header bg-danger bg-gradient text-white">
+                                    <h3 class="card-title mt-0 mb-0">Error</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <pre>{{module.error}}</pre>
                                 </div>
                             </div>
@@ -247,16 +247,16 @@
                                 <div class="col-sm-8">
                                     <h5>{{module.name}}</h5>
                                 </div>
-                                <div class="col-sm-4 text-right module-actions">
-                                    <a class="btn btn-xs btn-fill" href="{{ url_for('ModulesView:configure', id=module._id)}}"><i class="fa fa-sliders"></i> Configure</a>
+                                <div class="col-sm-4 text-end module-actions">
+                                    <a class="btn btn-sm btn-fill" href="{{ url_for('ModulesView:configure', id=module._id)}}"><i class="fa fa-sliders"></i> Configure</a>
                                     {% if module.enabled %}
                                         <form method="post" action="{{ url_for('ModulesView:disable', id=module._id) }}">
-                                            <button type="submit" class="btn btn-danger btn-xs btn-fill"><i class="fa fa-remove"></i> Disable</button>
+                                            <button type="submit" class="btn btn-danger btn-sm btn-fill"><i class="fa fa-remove"></i> Disable</button>
                                         </form>
                                     {% else %}
                                         {% if not module.error %}
                                             <form method="post" action="{{ url_for('ModulesView:enable', id=module._id) }}">
-                                                <button type="submit" class="btn btn-success btn-xs btn-fill"><i class="fa fa-check"></i> Enable</button>
+                                                <button type="submit" class="btn btn-success btn-sm btn-fill"><i class="fa fa-check"></i> Enable</button>
                                             </form>
                                         {% endif %}
                                     {% endif %}
@@ -267,11 +267,11 @@
                             {% endif %}
 
                             {% if module.error %}
-                            <div class="panel panel-danger">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Error</h3>
+                            <div class="card border-danger">
+                                <div class="card-header bg-danger bg-gradient text-white">
+                                    <h3 class="card-title mt-0 mb-0">Error</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <pre>{{module.error}}</pre>
                                 </div>
                             </div>
@@ -311,18 +311,18 @@
                                 <div class="col-sm-8">
                                     <h5>{{module.name}}</h5>
                                 </div>
-                                <div class="col-sm-4 text-right module-actions">
+                                <div class="col-sm-4 text-end module-actions">
                                     {% if module.config %}
-                                        <a class="btn btn-xs btn-fill" href="{{ url_for('ModulesView:configure', id=module._id)}}"><i class="fa fa-sliders"></i> Configure</a>
+                                        <a class="btn btn-sm btn-fill" href="{{ url_for('ModulesView:configure', id=module._id)}}"><i class="fa fa-sliders"></i> Configure</a>
                                     {% endif %}
                                     {% if module.enabled %}
                                         <form method="post" action="{{ url_for('ModulesView:disable', id=module._id) }}">
-                                            <button type="submit" class="btn btn-danger btn-xs btn-fill"><i class="fa fa-remove"></i> Disable</button>
+                                            <button type="submit" class="btn btn-danger btn-sm btn-fill"><i class="fa fa-remove"></i> Disable</button>
                                         </form>
                                     {% else %}
                                         {% if not module.error %}
                                             <form method="post" action="{{ url_for('ModulesView:enable', id=module._id) }}">
-                                                <button type="submit" class="btn btn-success btn-xs btn-fill"><i class="fa fa-check"></i> Enable</button>
+                                                <button type="submit" class="btn btn-success btn-sm btn-fill"><i class="fa fa-check"></i> Enable</button>
                                             </form>
                                         {% endif %}
                                     {% endif %}
@@ -333,11 +333,11 @@
                             {% endif %}
 
                             {% if module.error %}
-                            <div class="panel panel-danger">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Error</h3>
+                            <div class="card border-danger">
+                                <div class="card-header bg-danger bg-gradient text-white">
+                                    <h3 class="card-title mt-0 mb-0">Error</h3>
                                 </div>
-                                <div class="panel-body">
+                                <div class="card-body">
                                     <pre>{{module.error}}</pre>
                                 </div>
                             </div>

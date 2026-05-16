@@ -1,11 +1,11 @@
 <li class="timeline-entry">
     <div class="timeline-time">{{ block.created|date }}<div class="timeline-timesince">({{block.created|timesince}})</div></div>
     {% if block.action == 'new' or block.action == 'added' %}
-	<div class="timeline-badge"><i class="glyphicon glyphicon-plus"></i></div>
+	<div class="timeline-badge"><i class="fa fa-plus"></i></div>
 	{% elif block.action == 'update' %}
-	<div class="timeline-badge timeline-updated"><i class="glyphicon glyphicon-random"></i></div>
+	<div class="timeline-badge timeline-updated"><i class="fa fa-exchange"></i></div>
 	{% elif block.action == 'removed' %}
-	<div class="timeline-badge timeline-removed"><i class="glyphicon glyphicon-thumbs-up"></i></div>
+	<div class="timeline-badge timeline-removed"><i class="fa fa-thumbs-up"></i></div>
 	{% endif %}
 
     <div class="row timeline-panel">
@@ -38,9 +38,9 @@
                         <hr />
                         <div class="stats">
                             <ul>
-                                <li><a class="timeline-delete" href="{{ url_for('ConfigsView:delete', id=block._id) }}"><i class="glyphicon glyphicon-trash"></i> Delete</a></li>
+                                <li><a class="timeline-delete" href="{{ url_for('ConfigsView:delete', id=block._id) }}"><i class="fa fa-trash"></i> Delete</a></li>
                                 {% if block.action != 'removed' %}
-                                <li><a class="toggle" href="#"><i class="glyphicon glyphicon-eye-close"></i> Hide Content</a><a class="toggle" style="display:none" href="#"><i class="glyphicon glyphicon-eye-open"></i> Show Content</a></li>
+                                <li><a class="toggle" href="#"><i class="fa fa-eye-slash"></i> Hide Content</a><a class="toggle" style="display:none" href="#"><i class="fa fa-eye"></i> Show Content</a></li>
                                 {% endif %}
                                 {% if block.analyses %}
                                     <li>

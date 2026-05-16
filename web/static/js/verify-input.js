@@ -1,11 +1,12 @@
 
 $("form[id='submit']").on("submit", function(event) {
-  if($('.nav-pills a[href="#url"]').attr('aria-expanded') == "true") {
+  if($('.nav-pills a[href="#url"]').hasClass("active")) {
     let parser = document.createElement('a');
 
     parser.href = $("input[name='url']").val();
     if ($("input[name='url']").val().indexOf('://') == -1) {
       parser.href = 'http://' + $("input[name='url']").val(); // force the URL to be considered as absolute
+
     }
 
     if((parser.protocol != "https:" && parser.protocol != "http:") || parser.hostname.indexOf('.') == -1) {
@@ -28,7 +29,7 @@ $("form[id='submit']").on("submit", function(event) {
           }
       });
     }
-  } else if ($('.nav-pills a[href="#hash"]').attr('aria-expanded') == "true") {
+  } else if ($('.nav-pills a[href="#hash"]').hasClass("active")) {
     let hash = $("input[name='hash']").val();
     if (!/^[a-fA-F0-9]{32}$/.test(hash) // MD5
      && !/^[a-fA-F0-9]{40}$/.test(hash) // SHA1

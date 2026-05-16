@@ -10,39 +10,39 @@
                 <p class="category"></p>
             </div>
             <div class="content admin-form">
-                <form class="form-horizontal" method="post"
+                <form method="post"
                     action="{% if user %}{{url_for('UsersView:update', id=user._id)}}{% else %}{{url_for('UsersView:create')}}{% endif %}">
 
-                    <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">Name *</label>
+                    <div class="row mb-3">
+                        <label for="name" class="col-sm-2 col-form-label">Name *</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" name="name"
                                 value="{% if user %}{{user.name}}{% endif %}" placeholder="Full Name">
-                            <p class="help-block">User's full name. Will be displayed when hovering on avatar.</p>
+                            <div class="form-text">User's full name. Will be displayed when hovering on avatar.</div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="email" class="col-sm-2 control-label">Email *</label>
+                    <div class="row mb-3">
+                        <label for="email" class="col-sm-2 col-form-label">Email *</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" name="email"
                                 value="{% if user %}{{user.email}}{% endif %}" placeholder="Email address">
-                            <p class="help-block">User's email address. Used as a login.</p>
+                            <div class="form-text">User's email address. Used as a login.</div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="groups" class="col-sm-2 control-label">Groups *</label>
+                    <div class="row mb-3">
+                        <label for="groups" class="col-sm-2 col-form-label">Groups *</label>
                         <div class="col-sm-8">
                             <input type="text" class="tags-input tag-azure" name="groups"
                                 value="{% if user %}{{ user.groups|join(',') }}{% endif %}" placeholder="Groups">
-                            <p class="help-block">User's groups. Defines which analyses the user will have access to.
-                                Special group '*' will give access to all analyses.</p>
+                            <div class="form-text">User's groups. Defines which analyses the user will have access to.
+                                Special group '*' will give access to all analyses.</div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Permissions</label>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Permissions</label>
                         <div class="col-sm-8">
                             {% for permission, description in data.permissions.items() %}
                             <label class="checkbox checkbox-inline">
@@ -50,7 +50,7 @@
                                     {% if user and permission in user.permissions %}checked{% endif %}
                                     data-toggle="checkbox">{{permission}}
                             </label>
-                            <p class="help-block">{{description}}</p>
+                            <div class="form-text">{{description}}</div>
                             {% endfor %}
                         </div>
                     </div>
