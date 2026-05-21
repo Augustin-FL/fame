@@ -3158,6 +3158,12 @@ span.tag {
   border: 1px solid #ddd;
 }
 
+.pagination li a:hover,
+.pagination li span:hover {
+  background-color: #eee;
+  border-color: #ddd;
+}
+
 .pagination li.active a,
 .pagination li.active span,
 .pagination li.active a:hover,
