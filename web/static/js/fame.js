@@ -15,10 +15,15 @@ function auto_update(url, time, selector) {
     if (should_refresh) {
       $.get(url).done(function (html) {
         if (should_refresh) {
+
           html = $(html);
           $(selector).each(function (i) {
             id = $(this).attr('id');
-            $(this).html(html.find('#' + id).html());
+            var newContent = html.find('#' + id).html();
+              if (newContent !== undefined && $(this).html().replace(/\s\bactive\b/g, '') !== newContent.replace(/\s\bactive\b/g, '')) {
+                $(this).html(newContent);
+                $(document).trigger('auto-updated', [$(this).attr('id')]);
+              }
           });
         } else {
           auto_update(url, time, selector);

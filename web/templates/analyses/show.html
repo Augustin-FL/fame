@@ -386,12 +386,33 @@ Analysis
 
 
 <script type="text/javascript">
-    new bootstrap.ScrollSpy(document.querySelector('.main-panel'), { target: '#sidebar-nav' });
-
     hljs.initHighlighting.called = false;
     hljs.initHighlighting();
 
     $('.tags-input').tagsInput();
+
+    {% if analysis.status in ('pending', 'running', 'preloading') %}
+    auto_update("{{ url_for('AnalysesView:get', id=analysis._id) }}", 3000, '.auto-update');
+    enable_checkboxes();
+    {% endif %}
+</script>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    window.scrollSpyInstance = new bootstrap.ScrollSpy(document.querySelector('.main-panel'), { target: '#sidebar-nav' });
+
+    $(document).on('auto-updated', function(e, id) {
+      if (window.scrollSpyInstance) {
+        var activeHref = $('#sidebar-nav .nav-link.active').attr('href');
+        window.scrollSpyInstance.dispose();
+        window.scrollSpyInstance = new bootstrap.ScrollSpy(document.querySelector('.main-panel'), { target: '#sidebar-nav' });
+        if (activeHref) {
+          $('#sidebar-nav .nav-link[href="' + activeHref + '"]').addClass('active');
+        }
+      }
+    });
 
     document.addEventListener('click', function(e) {
       var trigger = e.target.closest('[data-modal-trigger]');
@@ -419,12 +440,4 @@ Analysis
       }
     });
 </script>
-
-{% if analysis.status in ('pending', 'running', 'preloading') %}
-<script>
-    auto_update("{{ url_for('AnalysesView:get', id=analysis._id) }}", 3000, '.auto-update');
-    enable_checkboxes();
-</script>
-{% endif %}
-
 {% endblock %}
