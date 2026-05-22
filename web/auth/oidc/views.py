@@ -22,7 +22,7 @@ from web.auth.oidc.user_management import (
     ClaimMappingError,
 )
 
-auth = Blueprint("", __name__, template_folder="templates")
+auth = Blueprint("auth", __name__, template_folder="templates")
 
 
 @auth.route("/oidc-login", methods=["GET", "POST"])
