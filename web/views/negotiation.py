@@ -42,8 +42,13 @@ def is_allowed_domain(target):
     if not target:
         return False
 
-    parsed = urlparse(target)
-    if not parsed.netloc:
+    normalized_target = target.replace("\\", "/")
+    parsed = urlparse(normalized_target)
+
+    if parsed.scheme and not parsed.netloc:
+        return False
+
+    if not parsed.scheme and not parsed.netloc:
         return True
 
     allowed_netlocs = set()
