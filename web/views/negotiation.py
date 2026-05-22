@@ -1,7 +1,10 @@
+from urllib.parse import urlparse
 from flask import redirect as flask_redirect
 from flask import request, get_flashed_messages, render_template
 from flask.wrappers import Response
 from bson.json_util import dumps
+from fame.common.config import fame_config
+from web.views.helpers import get_fame_url
 
 
 def should_render_as_html():
@@ -35,18 +38,39 @@ def render(data, template, ctx=None):
         return render_json(data)
 
 
+def is_allowed_domain(target):
+    if not target:
+        return False
+
+    parsed = urlparse(target)
+    if not parsed.netloc:
+        return True
+
+    allowed_netlocs = set()
+    for url in fame_config.fame_url.strip().split(" "):
+        url = url.strip()
+        if url:
+            netloc = urlparse(url).netloc
+            if netloc:
+                allowed_netlocs.add(netloc)
+
+    return parsed.netloc in allowed_netlocs
+
+
 def redirect(data, path):
     if should_render_as_html():
-        return flask_redirect(path)
+        if is_allowed_domain(path):
+            return flask_redirect(path)
+        return flask_redirect("/")
 
     return render_json(data)
 
 
 def validation_error(path=None):
     if should_render_as_html():
-        if path:
-            return flask_redirect(path)
-
-        return flask_redirect(request.referrer)
+        target = path or request.referrer
+        if target and is_allowed_domain(target):
+            return flask_redirect(target)
+        return flask_redirect("/")
 
     return render_json({'errors': get_flashed_messages()})
