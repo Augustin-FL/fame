@@ -68,9 +68,8 @@ def redirect(data, path):
 
 def validation_error(path=None):
     if should_render_as_html():
-        target = path or request.referrer
-        if target and is_allowed_domain(target):
-            return flask_redirect(target)
+        if is_allowed_domain(path):
+            return flask_redirect(path)
         return flask_redirect("/")
 
     return render_json({'errors': get_flashed_messages()})
