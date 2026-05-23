@@ -3116,63 +3116,45 @@ span.tag {
     margin-bottom: 20px;
 }
 
-.pagination ul {
-    padding-left: 0;
-    list-style: none;
-    margin: 0;
+.page-item .page-link {
+    border-radius: 50%;
+    margin: 0 2px;
+    padding: 7px 13px;
+    color: #797979;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
 }
 
-.pagination li {
-    display: inline;
+.page-item:first-child .page-link,
+.page-item:last-child .page-link {
+    border-radius: 50%;
 }
 
-.pagination li.disabled {
-  opacity: .4;
+.page-item:not(:first-child) .page-link {
+    margin-left: 2px;
 }
 
-.pagination li.disabled a,
-.pagination li.disabled a:focus,
-.pagination li.disabled a:hover,
-.pagination li.disabled span,
-.pagination li.disabled span:focus,
-.pagination li.disabled span:hover {
-  color: #777;
-  cursor: not-allowed;
-  background-color: #fff;
-  border-color: #ddd;
+.page-item:not(.disabled) .page-link:hover {
+    background-color: #eee;
+    border-color: #ddd;
 }
 
-.pagination.pagination-no-border li a,
-.pagination.pagination-no-border li span {
-  border: 0;
+.page-item.active .page-link,
+.page-item.active .page-link:hover,
+.page-item.active .page-link:focus {
+    background-color: #23CCEF;
+    border-color: #23CCEF;
+    color: #FFFFFF;
 }
 
-.pagination li a,
-.pagination li span {
-  border-radius: 50%;
-  margin: 0 2px;
-  padding: 7px 13px;
-  color: #797979;
-  text-decoration: none;
-  background-color: #fff;
-  border: 1px solid #ddd;
-}
-
-.pagination li a:hover,
-.pagination li span:hover {
-  background-color: #eee;
-  border-color: #ddd;
-}
-
-.pagination li.active a,
-.pagination li.active span,
-.pagination li.active a:hover,
-.pagination li.active span:hover,
-.pagination li.active a:focus,
-.pagination li.active span:focus {
-  background-color: #23CCEF;
-  border: 0;
-  color: #FFFFFF;
+.page-item.disabled .page-link {
+    opacity: .4;
+    color: #777;
+    background-color: #fff;
+    border-color: #ddd;
+    pointer-events: auto;
+    cursor: not-allowed;
 }
 
 .tagsinput {
