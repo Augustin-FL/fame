@@ -172,11 +172,13 @@ class Worker:
 
             for d in dirs:
                 dirpath = os.path.join(root, d)
+                dir_mtime = os.path.getmtime(dirpath)
 
-                try:
-                    os.rmdir(dirpath)
-                except:
-                    pass
+                if (current_time - dir_mtime) > (7 * 24 * 3600):
+                    try:
+                        os.rmdir(dirpath)
+                    except:
+                        pass
 
     def run_cleaner(self):
         analyses, files = get_old_analyses()
