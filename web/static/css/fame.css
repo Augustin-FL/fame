@@ -442,10 +442,6 @@ a#avatar-dropdown {
     color: #1DC7EA;
 }
 
-.tab-pills .nav-pills .nav-link:hover {
-    color: #42d0ed;
-}
-
 .module-list .module-info {
     padding-top: 10px;
     border-bottom: 1px dashed #DDDDDD;
